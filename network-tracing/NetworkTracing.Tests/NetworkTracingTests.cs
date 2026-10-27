@@ -57,7 +57,7 @@ public class NetworkTracerTests
     }
 
     [Fact]
-    public async Task Tracing()
+    public async Task HttpRequestTracing()
     {
         using var listener = new HttpEventListener();
         using var client = new HttpClient();
