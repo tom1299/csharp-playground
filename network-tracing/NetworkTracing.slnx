@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="NetworkTracing.Tests/NetworkTracing.Tests.csproj" />
+  <Project Path="NetworkTracing/NetworkTracing.csproj" />
+</Solution>

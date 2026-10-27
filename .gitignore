@@ -1,0 +1,26 @@
+# Build output
+**/bin/
+**/obj/
+**/out/
+**/artifacts/
+
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Test output
+**/TestResults/
+*.coverage
+*.coveragexml
+
+# NuGet
+*.nupkg
+*.snupkg
+.nuget/
+
+# IDEs
+.idea/
+*.sln.iml
