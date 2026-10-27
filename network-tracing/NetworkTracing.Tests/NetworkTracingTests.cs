@@ -1,4 +1,5 @@
 ﻿using System.Net.NetworkInformation;
+using System.Net.Sockets;
 
 namespace NetworkTracing.Tests;
 
@@ -30,6 +31,6 @@ public class NetworkTracerTests
     [Fact]
     public void DetermineInterfaceForNonExistentHost()
     {
-        Assert.Throws<InvalidOperationException>(() => new NetworkTracer("lucalhust", 9));
+        Assert.Throws<SocketException>(() => new NetworkTracer("lucalhust", 9));
     }
 }

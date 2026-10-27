@@ -22,21 +22,17 @@ public class NetworkTracer
 
     public void DetermineInterface()
     {
-        IPAddress[] hostAddresses = GetHostAddresses();
-
-        // Try converting this to a do while loop
-        foreach (var address in hostAddresses)
+        // Select first network interface that can reach the host.
+        NetworkInterface = Dns.GetHostAddresses(Host).Select(ResolveNetworkInterface).FirstOrDefault();
+    
+        if (NetworkInterface == null)
         {
-            if (ResolveNetworkInterface(address))
-            {
-                return;
-            }
+        throw new InvalidOperationException(
+            $"Could not determine network interface for host {Host} and port {Port}.");
         }
-
-        throw new InvalidOperationException($"Could not determine network interface for host {Host} and port {Port}.");
     }
 
-    private bool ResolveNetworkInterface(IPAddress destinationAddress)
+    private NetworkInterface? ResolveNetworkInterface(IPAddress destinationAddress)
     {
         try
         {
@@ -47,7 +43,7 @@ public class NetworkTracer
             {
                 if (HasLocalEndPoint(socket, networkInterface))
                 {
-                    return true;
+                    return networkInterface;
                 }
             }
         }
@@ -56,7 +52,7 @@ public class NetworkTracer
             // Try all resolved addresses for the host.
         }
 
-        return false;
+        return null;
     }
 
     private bool HasLocalEndPoint(Socket socket, NetworkInterface networkInterface)
@@ -66,23 +62,10 @@ public class NetworkTracer
 
         if (hasLocalAddress)
         {
-            NetworkInterface = networkInterface;
             return true;
         }
 
         return false;
-    }
-
-    private IPAddress[] GetHostAddresses()
-    {
-        try
-        {
-            return Dns.GetHostAddresses(Host);
-        }
-        catch (Exception ex)
-        {
-            throw new InvalidOperationException($"Could not resolve host {Host}.", ex);
-        }
     }
 }
 
